@@ -86,6 +86,20 @@
                 opacity: 0;
             }
         }
+
+        /* Volume Slider Styling */
+        .volume-slider {
+            margin-top: 20px;
+            width: 300px;
+            height: 5px;
+            background: #ddd;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .volume-slider input {
+            width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -94,10 +108,16 @@
     <h1>💌 I Miss You 💌</h1>
     <button class="love-button" onclick="showMessage()">Click Me</button>
     <p id="message" class="message"></p>
+
+    <!-- Volume Control -->
+    <div class="volume-slider">
+        <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="0.5">
+    </div>
 </div>
 
-<audio id="loveSound">
-    <source src="sound/bubble-pop.mp3" type="audio/mpeg">
+<!-- Background Music -->
+<audio id="backgroundMusic" loop>
+    <source src="music.mp3" type="audio/mpeg">
     Your browser does not support the audio element.
 </audio>
 
@@ -114,7 +134,6 @@
     { text: "Ik mis je (Dutch)", class: "font-style-2" },
     { text: "Eu sinto sua falta (Portuguese)", class: "font-style-3" },
     { text: "Me despierdes (Catalan)", class: "font-style-1" },
-    { text: "I miss you", class: "font-style-2" },
     { text: "당신이 그리워요 (Korean) - Dangsin-i Geuliwoyo", class: "font-style-1" },
     { text: "Я скучаю по тебе (Russian) - Ya skuchayu po tebe", class: "font-style-2" },
     { text: "Aku merindukanmu (Indonesian)", class: "font-style-3" },
@@ -127,59 +146,66 @@
     { text: "Jag saknar dig (Swedish)", class: "font-style-2" },
     { text: "Ich vermisse dich (Swiss German)", class: "font-style-3" },
     { text: "Missing you lah (Singlish)", class: "font-style-1" },
-    { text: "I miss you", class: "font-style-3" },
     { text: "Tá brón orm gan tú (Irish)", class: "font-style-2" },
     { text: "Namimiss kita (Tagalog)", class: "font-style-3" }
 ];
 
 
+    // Array of funny image URLs (replace these with your actual image file paths)
+    const funnyImages = [
+        "image/funny1.png",
+        "image/funny2.png",
+        "image/funny3.png",
+        "image/funny4.png"
+    ];
 
-     // Array of funny image URLs (replace these with your actual image file paths)
-     const funnyImages = [
-         "image/funny1.png", // Replace this with your actual image path
-         "image/funny2.png", // Replace this with your actual image path
-         "image/funny3.png", // Replace this with your actual image path
-         "image/funny4.png", // Replace this with your actual image path
-     ];
+    const backgroundMusic = document.getElementById('backgroundMusic');
+    const volumeControl = document.getElementById('volumeControl');
 
-     // Function to show the message, play sound, and add a floating image
-     function showMessage() {
-         const messageEl = document.getElementById("message");
-         const loveSound = document.getElementById("loveSound");
+    // Play background music on load
+    window.onload = () => {
+        backgroundMusic.play();
+    };
 
-         // Pick a random message
-         const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-         messageEl.textContent = randomMessage.text;
-         messageEl.className = `message ${randomMessage.class}`;
-         messageEl.style.display = "block";
+    // Adjust volume based on slider input
+    volumeControl.addEventListener('input', (e) => {
+        backgroundMusic.volume = e.target.value;
+    });
 
-         // Pick a random funny image
-         const randomImage = funnyImages[Math.floor(Math.random() * funnyImages.length)];
+    // Function to show the message, play sound, and add a floating image
+    function showMessage() {
+        const messageEl = document.getElementById("message");
 
-         // Create a new image element for floating
-         const floatingImage = document.createElement("img");
-         floatingImage.src = randomImage;
-         floatingImage.className = "funny-image";
+        // Pick a random message
+        const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+        messageEl.textContent = randomMessage.text;
+        messageEl.className = `message ${randomMessage.class}`;
+        messageEl.style.display = "block";
 
-         // Randomize the animation direction
-         floatingImage.style.setProperty("--x", Math.random() > 0.5 ? 1 : -1);
-         floatingImage.style.setProperty("--y", Math.random() > 0.5 ? 1 : -1);
+        // Pick a random funny image
+        const randomImage = funnyImages[Math.floor(Math.random() * funnyImages.length)];
 
-         // Set a random position for the image to start
-         floatingImage.style.top = `${Math.random() * 100}%`;
-         floatingImage.style.left = `${Math.random() * 100}%`;
+        // Create a new image element for floating
+        const floatingImage = document.createElement("img");
+        floatingImage.src = randomImage;
+        floatingImage.className = "funny-image";
 
-         // Append the floating image to the body
-         document.body.appendChild(floatingImage);
+        // Randomize the animation direction
+        floatingImage.style.setProperty("--x", Math.random() > 0.5 ? 1 : -1);
+        floatingImage.style.setProperty("--y", Math.random() > 0.5 ? 1 : -1);
 
-         // Remove the image after 8 seconds
-         setTimeout(() => {
-             floatingImage.remove();
-         }, 8000);
+        // Set a random position for the image to start
+        floatingImage.style.top = `${Math.random() * 100}%`;
+        floatingImage.style.left = `${Math.random() * 100}%`;
 
-         // Play the sound
-         loveSound.play();
-     }
+        // Append the floating image to the body
+        document.body.appendChild(floatingImage);
+
+        // Remove the image after 8 seconds
+        setTimeout(() => {
+            floatingImage.remove();
+        }, 8000);
+    }
 </script>
 
 </body>
