@@ -120,8 +120,15 @@
     Your browser does not support the audio element.
 </audio>
 
+<!-- Button Click Sound -->
+<audio id="buttonSound">
+    <source src="sound/bubble-pop.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+</audio>
+
 <script>
     const backgroundMusic = document.getElementById('backgroundMusic');
+    const buttonSound = document.getElementById('buttonSound');
     const volumeControl = document.getElementById('volumeControl');
 
     // Play music when the page loads (autoplay fallback)
@@ -132,7 +139,10 @@
     // Adjust volume based on slider input
     volumeControl.addEventListener('input', (e) => {
         backgroundMusic.volume = e.target.value;
+        buttonSound.volume = e.target.value; // Sync button sound volume with the slider
     });
+
+<script>
 
     // Array of "I miss you" messages in different languages and fonts
         const messages = [
@@ -172,6 +182,10 @@
     ];
 
     function showMessage() {
+        // Play button sound
+        buttonSound.currentTime = 0; // Reset the sound to the beginning
+        buttonSound.play();
+
         const messageEl = document.getElementById("message");
 
         // Pick a random message
